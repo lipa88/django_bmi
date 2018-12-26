@@ -3,19 +3,20 @@ from .models import Bmi
 
 
 class BmiSerializer(serializers.ModelSerializer):
-    bmi_value = serializers.SerializerMethodField()
 
     class Meta:
         model = Bmi
         fields = '__all__'
+        extra_kwargs = {'bmi_value': {'required': False}}
     
-    def get_bmi_value(self, instance):
-        return round(instance.mass / (instance.height ** 2 ), 2)
-    
+    def validate_height(self, value):
+        if value <= 0:
+            raise serializers.ValidationError('Height must be greater than 0.')
+        return value
+
     def create(self, validated_data):
-        validated_data['bmi_value'] = round(validated_data['mass'] / (validated_data['height'] ** 2), 2)
+        m = validated_data['mass']
+        # height is in cm, but should be in meters
+        h = validated_data['height'] / 100  
+        validated_data['bmi_value'] = round(m / (h ** 2), 2)
         return super(BmiSerializer, self).create(validated_data)
-
-
-
-

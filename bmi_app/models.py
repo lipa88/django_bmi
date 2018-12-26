@@ -9,8 +9,3 @@ class Bmi(models.Model):
     
     class Meta:
         ordering = ['created'] 
-
-#    @property
-#    def bmi_value(self):
-#        bmi_v = self.mass / ( self.height ** 2 )
-#        return "%.2f" % bmi_v
