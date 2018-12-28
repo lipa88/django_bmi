@@ -4,5 +4,6 @@
 Накатить миграции python manage.py migrate и запустить локально python manage.py runserver .
 
 http://127.0.0.1:8000/bmicalc/ - расчет BMI и создание нового обьекта Bmi в БД
+
 http://127.0.0.1:8000/bmistat/ - расчет статистик по данным из БД
 
