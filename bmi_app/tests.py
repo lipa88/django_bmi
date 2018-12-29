@@ -23,6 +23,16 @@ class BmiTests(APITestCase):
         self.assertEqual(Bmi.objects.count() - count_before, 1)
         self.assertEqual(Bmi.objects.last().bmi_value, 250.0)
 
+    def test_bmi_calc_zero_division(self):
+        """
+        Ensure we can handle zero division in BMI calculation.
+        """
+        factory = APIRequestFactory()
+        request = factory.post('/bmicalc/',
+                               {"height": "0", "mass": "10"}, format='json')
+        response = views.bmi_calc(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def setUp(self):
         Bmi.objects.create(height=20.00, mass=10.00, bmi_value=250.0)
         Bmi.objects.create(height=25.00, mass=10.00, bmi_value=160.0)
