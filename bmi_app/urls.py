@@ -1,5 +1,7 @@
 from django.conf.urls import url
-from . import views
+
+from bmi_app import views
+
 
 urlpatterns = [
     url(r'bmicalc/', views.bmi_calc, name="bmi-calculation"),

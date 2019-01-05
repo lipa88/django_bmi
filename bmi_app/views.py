@@ -6,9 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 
-
-from .models import Bmi
-from .serializers import BmiSerializer
+from bmi_app.models import Bmi
+from bmi_app.serializers import BmiSerializer
 
 
 @api_view(['POST'])
@@ -20,7 +19,7 @@ def bmi_calc(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data["bmi_value"], status=status.HTTP_201_CREATED)
-    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+    return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -35,5 +34,5 @@ def bmi_stat(request):
     response_data['avg'] = round(np.mean(bmi_array), 2)
     response_data['min'] = round(np.min(bmi_array), 2)
     response_data['max'] = round(np.max(bmi_array), 2)
-    response_data['std'] = round(np.std(bmi_array), 2)     
+    response_data['std'] = round(np.std(bmi_array), 2)    
     return Response(json.dumps(response_data), status=status.HTTP_200_OK)
